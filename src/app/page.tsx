@@ -7,6 +7,7 @@ import { BackgroundBlush } from "@/components/BackgroundBlush";
 import { BackgroundHearts } from "@/components/BackgroundHearts";
 import { BackgroundEmojiHearts } from "@/components/BackgroundEmojiHearts";
 import { SecretSurprise } from "@/components/SecretSurprise";
+import { PinGate } from "@/components/PinGate";
 
 const photos = [
   { src: "/vika/vika-1.jpg", alt: "Вика" },
@@ -19,11 +20,12 @@ const photos = [
 
 export default function Page() {
   return (
-    <main className="relative min-h-dvh bg-gradient-to-b from-white via-blush-50 to-white">
-      <BackgroundBlush />
-      <BackgroundHearts />
-      <BackgroundEmojiHearts />
-      <div className="relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-10 sm:px-5 sm:pt-12 md:pb-20 md:pt-16">
+    <PinGate>
+      <main className="relative min-h-dvh bg-gradient-to-b from-white via-blush-50 to-white">
+        <BackgroundBlush />
+        <BackgroundHearts />
+        <BackgroundEmojiHearts />
+        <div className="relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-10 sm:px-5 sm:pt-12 md:pb-20 md:pt-16">
         <header className="flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <motion.p
@@ -200,8 +202,9 @@ export default function Page() {
             </p>
           </div>
         </footer>
-      </div>
-    </main>
+        </div>
+      </main>
+    </PinGate>
   );
 }
 

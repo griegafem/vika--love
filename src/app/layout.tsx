@@ -3,7 +3,15 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Вика, я люблю тебя — Даня",
-  description: "Небольшое признание в любви для Вики от Дани."
+  description: "Небольшое признание в любви для Вики от Дани.",
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false
+    }
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
