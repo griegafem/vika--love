@@ -73,12 +73,9 @@ export function BackgroundHearts() {
                   textShadow: "0 18px 38px rgba(255, 59, 132, 0.10)",
                   animationDuration: `${h.duration}s`,
                   animationDelay: `${h.delay}s`,
-                  // @ts-expect-error -- CSS vars
-                  ["--drift"]: `${h.drift * boostMultiplier}px`,
-                  // @ts-expect-error -- CSS vars
-                  ["--lift"]: `${h.lift * boostMultiplier}px`,
-                  // @ts-expect-error -- CSS vars
-                  ["--tilt"]: `${h.tilt * boostMultiplier}deg`
+                  ["--drift" as any]: `${h.drift * boostMultiplier}px`,
+                  ["--lift" as any]: `${h.lift * boostMultiplier}px`,
+                  ["--tilt" as any]: `${h.tilt * boostMultiplier}deg`
                 }}
               >
                 ❤
