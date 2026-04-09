@@ -1,0 +1,16 @@
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "Вика, я люблю тебя — Даня",
+  description: "Небольшое признание в любви для Вики от Дани."
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="ru">
+      <body>{children}</body>
+    </html>
+  );
+}
+

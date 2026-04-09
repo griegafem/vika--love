@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-white text-zinc-900 antialiased;
+  }
+}
+
+@keyframes vika-heart-float {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(var(--drift, 0px), var(--lift, -18px), 0) rotate(var(--tilt, 6deg));
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+.vika-heart {
+  will-change: transform;
+  animation-name: vika-heart-float;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
