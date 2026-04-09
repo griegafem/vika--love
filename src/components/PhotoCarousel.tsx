@@ -12,31 +12,6 @@ export function PhotoCarousel({
   photos: { src: string; alt: string }[];
   className?: string;
 }) {
-  const loveLines = useMemo(
-    () => [
-      "Ты моё самое красивое счастье.",
-      "С тобой всё становится тише и теплее.",
-      "Я выбираю тебя — каждый день.",
-      "Ты улыбнёшься — и мир лучше.",
-      "Я рядом. Всегда.",
-      "Ты мой дом.",
-      "Ты невероятная, Вика.",
-      "Люблю тебя больше, чем слова умеют.",
-      "Ты — моя нежность.",
-      "С тобой я улыбаюсь чаще.",
-      "Твои глаза — мой любимый вид.",
-      "Ты моё вдохновение.",
-      "Ты — моё «да».",
-      "Я горжусь тобой.",
-      "Хочу держать тебя за руку всегда.",
-      "Ты самая лучшая.",
-      "Ты моё спокойствие.",
-      "С тобой хочется жить красиво.",
-      "Я люблю тебя. Очень."
-    ],
-    []
-  );
-
   const safePhotos = useMemo(() => (photos.length ? photos : []), [photos]);
   const [active, setActive] = useState(0);
   const thumbsRef = useRef<HTMLDivElement | null>(null);
@@ -49,18 +24,6 @@ export function PhotoCarousel({
     setActive((i) => (safePhotos.length ? (i + 1) % safePhotos.length : 0));
 
   const current = safePhotos[active];
-  const leftLines = useMemo(
-    () => Array.from({ length: 5 }).map((_, k) => loveLines[(active + k) % loveLines.length]),
-    [active, loveLines]
-  );
-  const rightLines = useMemo(
-    () => Array.from({ length: 5 }).map((_, k) => loveLines[(active + 7 + k) % loveLines.length]),
-    [active, loveLines]
-  );
-  const mobileLines = useMemo(
-    () => Array.from({ length: 3 }).map((_, k) => loveLines[(active + 2 + k) % loveLines.length]),
-    [active, loveLines]
-  );
 
   const pauseBriefly = (ms = 2200) => {
     setPaused(true);
@@ -96,78 +59,7 @@ export function PhotoCarousel({
       onPointerEnter={() => setPaused(true)}
       onPointerLeave={() => setPaused(false)}
     >
-      <div className="relative overflow-hidden rounded-3xl border border-blush-100 bg-transparent shadow-soft">
-        {current ? (
-          <>
-            {/* Mobile: compact stack at bottom so it doesn't cover the photo */}
-            <div className="pointer-events-none absolute inset-x-3 bottom-3 sm:hidden">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`m-${active}`}
-                  className="grid gap-2"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 6 }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                >
-                  {mobileLines.map((t, idx) => (
-                    <div
-                      key={`${t}-${idx}`}
-                      className="rounded-2xl border border-blush-100 bg-white/75 px-4 py-2 text-xs text-zinc-700 shadow-soft backdrop-blur"
-                    >
-                      {t}
-                    </div>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Desktop/tablet: 4-5 bubbles on each side */}
-            <div className="pointer-events-none absolute left-3 top-3 hidden w-[240px] sm:block md:left-5 md:top-5">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`l-${active}`}
-                  className="grid gap-2"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 6 }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
-                >
-                  {leftLines.map((t, idx) => (
-                    <div
-                      key={`${t}-${idx}`}
-                      className="rounded-2xl border border-blush-100 bg-white/70 px-4 py-3 text-sm text-zinc-700 shadow-soft backdrop-blur"
-                    >
-                      {t}
-                    </div>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            <div className="pointer-events-none absolute right-3 top-3 hidden w-[240px] sm:block md:right-5 md:top-10">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`r-${active}`}
-                  className="grid gap-2"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 6 }}
-                  transition={{ duration: 0.35, ease: "easeOut", delay: 0.05 }}
-                >
-                  {rightLines.map((t, idx) => (
-                    <div
-                      key={`${t}-${idx}`}
-                      className="rounded-2xl border border-blush-100 bg-white/70 px-4 py-3 text-sm text-zinc-700 shadow-soft backdrop-blur"
-                    >
-                      {t}
-                    </div>
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </>
-        ) : null}
+      <div className="relative overflow-hidden rounded-3xl border border-blush-100 bg-white shadow-soft">
         <div className="relative aspect-[4/5] sm:aspect-[16/10] md:aspect-[16/9]">
           <AnimatePresence mode="wait">
             {current ? (
@@ -194,7 +86,7 @@ export function PhotoCarousel({
                   fill
                   priority={active === 0}
                   sizes="(max-width: 768px) 100vw, 900px"
-                  className="object-contain object-center"
+                  className="object-cover object-center"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blush-50/25 via-transparent to-transparent" />
               </motion.div>
@@ -246,47 +138,46 @@ export function PhotoCarousel({
         <div className="mt-4">
           <div
             ref={thumbsRef}
-            className="flex gap-2 overflow-x-auto rounded-2xl border border-blush-100 bg-white/60 p-2 shadow-soft backdrop-blur [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="flex justify-center overflow-x-auto rounded-2xl border border-blush-100 bg-transparent p-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:overflow-x-visible"
           >
-            {safePhotos.map((p, i) => (
-              <button
-                key={p.src}
-                type="button"
-                data-idx={i}
-                onClick={() => {
-                  setActive(i);
-                  pauseBriefly(2600);
-                }}
-                className={cn(
-                  "relative shrink-0 overflow-hidden rounded-xl border transition",
-                  i === active
-                    ? "border-blush-400 ring-2 ring-blush-200"
-                    : "border-blush-100 hover:border-blush-200"
-                )}
-                aria-label={`Открыть фото ${i + 1}`}
-              >
-                <div className="relative h-[66px] w-[54px] sm:h-[74px] sm:w-[62px]">
-                  <Image
-                    src={p.src}
-                    alt={p.alt}
-                    fill
-                    sizes="80px"
-                    className="object-cover"
-                  />
-                </div>
-                {i === active ? (
-                  <motion.div
-                    layoutId="active-thumb"
-                    className="absolute inset-0 bg-blush-500/10"
-                    transition={{ type: "spring", stiffness: 500, damping: 40 }}
-                  />
-                ) : null}
-              </button>
-            ))}
+            <div className="flex w-fit gap-2">
+              {safePhotos.map((p, i) => (
+                <button
+                  key={p.src}
+                  type="button"
+                  data-idx={i}
+                  onClick={() => {
+                    setActive(i);
+                    pauseBriefly(2600);
+                  }}
+                  className={cn(
+                    "relative shrink-0 overflow-hidden rounded-xl border transition",
+                    i === active
+                      ? "border-blush-400 ring-2 ring-blush-200"
+                      : "border-blush-100 hover:border-blush-200"
+                  )}
+                  aria-label={`Открыть фото ${i + 1}`}
+                >
+                  <div className="relative h-[66px] w-[54px] sm:h-[74px] sm:w-[62px]">
+                    <Image
+                      src={p.src}
+                      alt={p.alt}
+                      fill
+                      sizes="80px"
+                      className="object-cover"
+                    />
+                  </div>
+                  {i === active ? (
+                    <motion.div
+                      layoutId="active-thumb"
+                      className="absolute inset-0 bg-blush-500/10"
+                      transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                    />
+                  ) : null}
+                </button>
+              ))}
+            </div>
           </div>
-          <p className="mt-2 text-xs text-zinc-500">
-            Свайпай большое фото или выбирай снизу.
-          </p>
         </div>
       ) : (
         <p className="mt-3 text-xs text-zinc-500">Листай свайпом влево/вправо.</p>
