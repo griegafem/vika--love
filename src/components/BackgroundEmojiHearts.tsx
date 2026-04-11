@@ -26,7 +26,7 @@ export function BackgroundEmojiHearts() {
   useEffect(() => {
     const seed = Math.random().toString(16).slice(2);
     const isSmUp = window.matchMedia?.("(min-width: 640px)")?.matches ?? true;
-    const count = isSmUp ? 16 : 10;
+    const count = isSmUp ? 8 : 5;
     const emojis: EmojiHeart["emoji"][] = ["💗", "💞", "💕", "💖"];
 
     const next: EmojiHeart[] = Array.from({ length: count }).map((_, i) => {
@@ -60,7 +60,6 @@ export function BackgroundEmojiHearts() {
             top: `${h.topPct}%`,
             fontSize: `${h.size}px`,
             opacity: h.opacity,
-            filter: "drop-shadow(0 18px 40px rgba(255, 59, 132, 0.12))",
             animationDuration: `${h.duration}s`,
             animationDelay: `${h.delay}s`,
             ["--drift" as any]: `${h.drift}px`,

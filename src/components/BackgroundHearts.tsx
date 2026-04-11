@@ -49,8 +49,7 @@ export function BackgroundHearts() {
         };
       });
 
-    // More hearts; still smooth because it's pure CSS animation
-    const perSide = isSmUp ? 48 : 28;
+    const perSide = isSmUp ? 22 : 14;
     setHearts([...make("left", perSide), ...make("right", perSide)]);
   }, []);
 
@@ -70,7 +69,6 @@ export function BackgroundHearts() {
                   right: h.side === "right" ? `${h.insetPx}px` : undefined,
                   fontSize: `${h.size}px`,
                   opacity: h.opacity,
-                  textShadow: "0 18px 38px rgba(255, 59, 132, 0.10)",
                   animationDuration: `${h.duration}s`,
                   animationDelay: `${h.delay}s`,
                   ["--drift" as any]: `${h.drift * boostMultiplier}px`,

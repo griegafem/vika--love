@@ -60,7 +60,7 @@ export function HeartConfettiButton({
     const originX = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
     const originY = rect ? rect.top + rect.height / 2 : window.innerHeight * 0.55;
     const now = nowTs;
-    const next: Heart[] = Array.from({ length: 26 }).map((_, i) => ({
+    const next: Heart[] = Array.from({ length: 16 }).map((_, i) => ({
       id: `${seed}-${now}-${i}`,
       x: originX + randomBetween(-40, 40),
       y: originY + randomBetween(-10, 10),
@@ -72,7 +72,7 @@ export function HeartConfettiButton({
       opacity: randomBetween(0.75, 0.95),
       rise: randomBetween(420, 680)
     }));
-    const nextSparks: Spark[] = Array.from({ length: 14 }).map((_, i) => ({
+    const nextSparks: Spark[] = Array.from({ length: 8 }).map((_, i) => ({
       id: `${seed}-${now}-s-${i}`,
       x: originX + randomBetween(-20, 20),
       y: originY + randomBetween(-10, 10),
@@ -104,8 +104,7 @@ export function HeartConfettiButton({
               style={{
                 left: `${s.x}px`,
                 top: `${s.y}px`,
-                opacity: s.opacity,
-                willChange: "transform, opacity"
+                opacity: s.opacity
               }}
               initial={{ y: 0, x: 0, rotate: 0, scale: 0.9 }}
               animate={{
@@ -156,9 +155,7 @@ export function HeartConfettiButton({
                 left: `${h.x}px`,
                 top: `${h.y}px`,
                 fontSize: `${h.size}px`,
-                opacity: h.opacity,
-                filter: "drop-shadow(0 12px 22px rgba(255, 59, 132, 0.14))",
-                willChange: "transform, opacity"
+                opacity: h.opacity
               }}
               initial={{ y: 0, x: 0, rotate: 0, scale: 0.9 }}
               animate={{

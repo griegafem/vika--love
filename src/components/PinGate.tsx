@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const SESSION_KEY = "vika_love_unlocked_v1";
@@ -9,16 +9,11 @@ function onlyDigits(s: string) {
   return s.replace(/\D/g, "");
 }
 
-function getPin() {
-  // Configure via env: NEXT_PUBLIC_PIN=126534
-  return (process.env.NEXT_PUBLIC_PIN ?? "126534").trim();
-}
-
 export function PinGate({ children }: { children: React.ReactNode }) {
-  const pin = useMemo(() => getPin(), []);
   const [unlocked, setUnlocked] = useState(false);
   const [digits, setDigits] = useState<string[]>(Array.from({ length: 6 }, () => ""));
   const [error, setError] = useState<string | null>(null);
+  const [verifying, setVerifying] = useState(false);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   useEffect(() => {
@@ -28,23 +23,60 @@ export function PinGate({ children }: { children: React.ReactNode }) {
   }, []);
 
   const joined = digits.join("");
-  const expected = onlyDigits(pin).slice(0, 6);
 
   useEffect(() => {
     if (unlocked) return;
     if (joined.length !== 6) return;
-    if (joined === expected) {
-      setUnlocked(true);
-      setError(null);
+
+    const ac = new AbortController();
+    setVerifying(true);
+    setError(null);
+
+    (async () => {
       try {
-        sessionStorage.setItem(SESSION_KEY, "1");
-      } catch {}
-    } else {
-      setError("Неверный пин-код");
-      setDigits(Array.from({ length: 6 }, () => ""));
-      window.setTimeout(() => inputRefs.current[0]?.focus(), 0);
-    }
-  }, [expected, joined, unlocked]);
+        const res = await fetch("/api/verify-pin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pin: joined }),
+          signal: ac.signal
+        });
+        const data: unknown = await res.json().catch(() => null);
+        const ok =
+          res.ok &&
+          typeof data === "object" &&
+          data !== null &&
+          "ok" in data &&
+          (data as { ok: unknown }).ok === true;
+
+        if (ac.signal.aborted) return;
+
+        if (ok) {
+          setUnlocked(true);
+          setError(null);
+          try {
+            sessionStorage.setItem(SESSION_KEY, "1");
+          } catch {}
+        } else if (res.status === 503) {
+          setError("Сейчас вход недоступен. Попробуй позже.");
+          setDigits(Array.from({ length: 6 }, () => ""));
+          window.setTimeout(() => inputRefs.current[0]?.focus(), 0);
+        } else {
+          setError("Неверный пин-код");
+          setDigits(Array.from({ length: 6 }, () => ""));
+          window.setTimeout(() => inputRefs.current[0]?.focus(), 0);
+        }
+      } catch {
+        if (ac.signal.aborted) return;
+        setError("Не удалось проверить код. Проверь соединение.");
+        setDigits(Array.from({ length: 6 }, () => ""));
+        window.setTimeout(() => inputRefs.current[0]?.focus(), 0);
+      } finally {
+        if (!ac.signal.aborted) setVerifying(false);
+      }
+    })();
+
+    return () => ac.abort();
+  }, [joined, unlocked]);
 
   const onChangeAt = (idx: number, value: string) => {
     const cleaned = onlyDigits(value).slice(0, 6);
@@ -58,7 +90,6 @@ export function PinGate({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // Paste / fast input
     const next = [...digits];
     for (let i = 0; i < 6; i++) next[i] = cleaned[i] ?? "";
     setDigits(next);
@@ -116,9 +147,10 @@ export function PinGate({ children }: { children: React.ReactNode }) {
                       autoComplete="one-time-code"
                       pattern="[0-9]*"
                       value={d}
+                      disabled={verifying}
                       onChange={(e) => onChangeAt(idx, e.target.value)}
                       onKeyDown={(e) => onKeyDownAt(idx, e)}
-                      className="h-12 w-10 rounded-xl border border-blush-200 bg-white text-center text-lg font-semibold text-zinc-900 shadow-soft outline-none transition focus:border-blush-400 focus:ring-4 focus:ring-blush-100"
+                      className="h-12 w-10 rounded-xl border border-blush-200 bg-white text-center text-lg font-semibold text-zinc-900 shadow-soft outline-none transition focus:border-blush-400 focus:ring-4 focus:ring-blush-100 disabled:opacity-60"
                       aria-label={`Цифра ${idx + 1}`}
                       autoFocus={idx === 0}
                     />
@@ -138,6 +170,10 @@ export function PinGate({ children }: { children: React.ReactNode }) {
                   ) : null}
                 </AnimatePresence>
 
+                {verifying ? (
+                  <p className="mt-4 text-center text-xs text-zinc-500">Проверяю…</p>
+                ) : null}
+
                 <p className="mt-5 text-center text-xs text-zinc-500">
                   Совет: можно вставить код целиком.
                 </p>
@@ -149,4 +185,3 @@ export function PinGate({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-

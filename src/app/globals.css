@@ -30,9 +30,96 @@
 }
 
 .vika-heart {
-  will-change: transform;
   animation-name: vika-heart-float;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
+}
+
+@keyframes vika-blush-a {
+  0%,
+  100% {
+    transform: translate3d(-50%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-50%, 26px, 0) scale(1.05);
+  }
+}
+
+@keyframes vika-blush-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(28px, -18px, 0);
+  }
+}
+
+@keyframes vika-blush-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-22px, 0, 0) rotate(6deg);
+  }
+}
+
+.vika-blush-orb {
+  transform: translateZ(0);
+}
+
+.vika-blush-orb-a {
+  animation: vika-blush-a 10s ease-in-out infinite;
+}
+
+.vika-blush-orb-b {
+  animation: vika-blush-b 12s ease-in-out infinite;
+}
+
+.vika-blush-orb-c {
+  animation: vika-blush-c 14s ease-in-out infinite;
+}
+
+@keyframes vika-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.vika-intro > * {
+  opacity: 0;
+  animation: vika-fade-up 0.65s ease-out forwards;
+}
+
+.vika-intro > *:nth-child(1) {
+  animation-delay: 0.02s;
+}
+.vika-intro > *:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.vika-intro > *:nth-child(3) {
+  animation-delay: 0.14s;
+}
+.vika-intro > *:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vika-heart,
+  .vika-blush-orb {
+    animation: none !important;
+  }
+
+  .vika-intro > * {
+    opacity: 1;
+    transform: none;
+    animation: none !important;
+  }
 }
 

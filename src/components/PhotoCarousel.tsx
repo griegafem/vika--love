@@ -168,11 +168,7 @@ export function PhotoCarousel({
                     />
                   </div>
                   {i === active ? (
-                    <motion.div
-                      layoutId="active-thumb"
-                      className="absolute inset-0 bg-blush-500/10"
-                      transition={{ type: "spring", stiffness: 500, damping: 40 }}
-                    />
+                    <div className="pointer-events-none absolute inset-0 bg-blush-500/10 transition-opacity" />
                   ) : null}
                 </button>
               ))}
