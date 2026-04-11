@@ -9,6 +9,7 @@ import { SecretSurprise } from "@/components/SecretSurprise";
 import { ReasonsJar } from "@/components/ReasonsJar";
 import { PinGate } from "@/components/PinGate";
 import { LazyVideo } from "@/components/LazyVideo";
+import { LoveClock } from "@/components/LoveClock";
 
 const photos = [
   { src: "/vika/vika-1.jpg", alt: "Вика" },
@@ -27,7 +28,7 @@ export default function Page() {
         <BackgroundHearts />
         <BackgroundEmojiHearts />
         <div className="relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-10 sm:px-5 sm:pt-12 md:pb-20 md:pt-16">
-          <header className="flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
+          <header className="flex flex-col items-start gap-6 md:flex-row md:items-start md:justify-between">
             <div className="vika-intro max-w-2xl">
               <p className="text-xs font-medium tracking-[0.2em] text-zinc-500">
                 ОТКРЫТКА ДЛЯ ВИКИ
@@ -66,7 +67,9 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="w-full rounded-3xl border border-blush-100 bg-white/80 p-5 shadow-soft backdrop-blur sm:max-w-sm md:w-[360px]">
+            <div className="flex w-full flex-col items-center gap-4 md:w-auto md:items-end">
+              <LoveClock />
+              <div className="w-full rounded-3xl border border-blush-100 bg-white/80 p-5 shadow-soft backdrop-blur sm:max-w-sm md:w-[360px]">
               <p className="text-sm text-zinc-700">
                 Мини-обещание:
                 <span className="block pt-2 text-zinc-600">
@@ -78,6 +81,7 @@ export default function Page() {
               <p className="mt-4 text-sm text-zinc-600">
                 P.S. Нажми на кнопку — полетят сердечки.
               </p>
+              </div>
             </div>
           </header>
 
