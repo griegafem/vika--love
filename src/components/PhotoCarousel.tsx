@@ -38,13 +38,6 @@ export function PhotoCarousel({
   }, []);
 
   useEffect(() => {
-    const root = thumbsRef.current;
-    if (!root) return;
-    const el = root.querySelector<HTMLButtonElement>(`button[data-idx="${active}"]`);
-    el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-  }, [active]);
-
-  useEffect(() => {
     if (paused) return;
     if (safePhotos.length <= 1) return;
     const id = window.setInterval(() => {

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Heart">
+  <defs>
+    <radialGradient id="g" cx="35%" cy="25%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="28%" stop-color="#ffe4ec" stop-opacity="0.95"/>
+      <stop offset="60%" stop-color="#ff6ea1" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#ff3b84" stop-opacity="1"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.6" result="b"/>
+      <feColorMatrix
+        in="b"
+        type="matrix"
+        values="
+          1 0 0 0 0
+          0 0.4 0 0 0
+          0 0 0.6 0 0
+          0 0 0 0.9 0"
+        result="c"
+      />
+      <feMerge>
+        <feMergeNode in="c"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <path
+    filter="url(#glow)"
+    fill="url(#g)"
+    d="M32 56s-18.6-10.9-26-24.3C0.7 21.4 5.6 10 17.1 10c5.7 0 10 3.1 12.9 6.8C32.9 13.1 37.2 10 42.9 10 54.4 10 59.3 21.4 58 31.7 50.6 45.1 32 56 32 56z"
+  />
+</svg>
+
