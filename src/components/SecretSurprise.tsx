@@ -518,7 +518,7 @@ export function SecretSurprise() {
           setPickedIdx(idx);
           setOpen(true);
         }}
-        className="inline-flex items-center justify-center rounded-2xl border border-blush-200 bg-white/70 px-5 py-4 text-sm font-medium text-zinc-900 shadow-soft backdrop-blur transition hover:-translate-y-0.5 hover:border-blush-300 hover:bg-white active:translate-y-0"
+        className="inline-flex items-center justify-center rounded-2xl border border-blush-200 bg-white/70 px-5 py-4 text-sm font-medium text-zinc-900 shadow-soft backdrop-blur transition hover:-translate-y-0.5 hover:border-blush-300 hover:bg-white active:translate-y-0 dark:border-zinc-800/80 dark:bg-zinc-900/55 dark:text-zinc-100 dark:hover:bg-zinc-900"
         whileHover={{ y: -2 }}
         whileTap={{ scale: 0.98 }}
         transition={{ type: "spring", stiffness: 500, damping: 34 }}
@@ -546,7 +546,7 @@ export function SecretSurprise() {
             />
 
             <motion.div
-              className="relative w-full max-w-xl overflow-hidden rounded-3xl border border-blush-100 bg-white shadow-soft"
+              className="relative w-full max-w-xl overflow-hidden rounded-3xl border border-blush-100 bg-white shadow-soft dark:border-zinc-800/70 dark:bg-zinc-950"
               initial={{ y: 18, scale: 0.98, opacity: 0 }}
               animate={{ y: 0, scale: 1, opacity: 1 }}
               exit={{ y: 10, scale: 0.99, opacity: 0 }}
@@ -558,7 +558,7 @@ export function SecretSurprise() {
                     <p className="text-xs font-medium tracking-[0.2em] text-zinc-500">
                       СЕКРЕТНОЕ ПИСЬМО
                     </p>
-                    <p className="mt-2 text-lg font-semibold text-zinc-900">
+                    <p className="mt-2 text-lg font-semibold text-zinc-900 dark:text-zinc-50">
                       Для Вики — от Дани
                     </p>
                   </div>
@@ -568,14 +568,14 @@ export function SecretSurprise() {
                       setOpen(false);
                       setPickedIdx(null);
                     }}
-                    className="rounded-full border border-blush-100 bg-white/70 px-3 py-1.5 text-xs font-medium text-zinc-700 backdrop-blur transition hover:bg-white"
+                    className="rounded-full border border-blush-100 bg-white/70 px-3 py-1.5 text-xs font-medium text-zinc-700 backdrop-blur transition hover:bg-white dark:border-zinc-800/70 dark:bg-zinc-950/60 dark:text-zinc-200 dark:hover:bg-zinc-950"
                   >
                     Закрыть
                   </button>
                 </div>
 
-                <div className="mt-5 rounded-2xl border border-blush-100 bg-blush-50/50 p-4">
-                  <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-zinc-700">
+                <div className="mt-5 rounded-2xl border border-blush-100 bg-blush-50/50 p-4 dark:border-zinc-800/70 dark:bg-zinc-900/35">
+                  <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-zinc-700 dark:text-zinc-200">
                     {typed}
                     <span className="inline-block w-[0.6ch] animate-pulse text-blush-400">
                       |

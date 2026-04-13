@@ -38,7 +38,7 @@ export function LazyVideo({ src, className }: Props) {
         />
       ) : (
         <div
-          className="aspect-video w-full animate-pulse rounded-3xl bg-blush-50/80"
+          className="aspect-video w-full animate-pulse rounded-3xl bg-blush-50/80 dark:bg-zinc-900/40"
           aria-hidden
         />
       )}

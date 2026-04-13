@@ -1,7 +1,7 @@
 "use client";
 
 import { HeartConfettiButton } from "@/components/HeartConfetti";
-import { PhotoCarousel } from "@/components/PhotoCarousel";
+import Link from "next/link";
 import { BackgroundBlush } from "@/components/BackgroundBlush";
 import { BackgroundHearts } from "@/components/BackgroundHearts";
 import { BackgroundEmojiHearts } from "@/components/BackgroundEmojiHearts";
@@ -10,6 +10,10 @@ import { ReasonsJar } from "@/components/ReasonsJar";
 import { PinGate } from "@/components/PinGate";
 import { LazyVideo } from "@/components/LazyVideo";
 import { LoveClock } from "@/components/LoveClock";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { TimeTogether } from "@/components/TimeTogether";
+import { RotatingPhotoStrip } from "@/components/RotatingPhotoStrip";
+import { WeeklyRoulette } from "@/components/WeeklyRoulette";
 
 const photos = [
   { src: "/vika/vika-1.jpg", alt: "Вика" },
@@ -23,7 +27,7 @@ const photos = [
 export default function Page() {
   return (
     <PinGate>
-      <main className="relative min-h-dvh bg-gradient-to-b from-white via-blush-50 to-white">
+      <main className="relative min-h-dvh bg-gradient-to-b from-white via-blush-50 to-white dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-950">
         <BackgroundBlush />
         <BackgroundHearts />
         <BackgroundEmojiHearts />
@@ -33,10 +37,10 @@ export default function Page() {
               <p className="text-xs font-medium tracking-[0.2em] text-zinc-500">
                 ОТКРЫТКА ДЛЯ ВИКИ
               </p>
-              <h1 className="mt-3 text-balance text-4xl font-semibold leading-tight text-zinc-900 sm:text-[44px] md:text-5xl">
+              <h1 className="mt-3 text-balance text-4xl font-semibold leading-tight text-zinc-900 sm:text-[44px] md:text-5xl dark:text-zinc-50">
                 Вика, я от тебя без ума
               </h1>
-              <p className="mt-4 text-pretty text-base leading-relaxed text-zinc-600 md:text-lg">
+              <p className="mt-4 text-pretty text-base leading-relaxed text-zinc-600 md:text-lg dark:text-zinc-300">
                 Ты — мой дом, мое спокойствие и мой самый красивый мир. Спасибо тебе за
                 улыбки, тепло и за то, что ты просто есть. Я рядом. Всегда.
               </p>
@@ -52,58 +56,47 @@ export default function Page() {
                     href="https://t.me/griegafem"
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-center rounded-full border border-blush-200 bg-white/70 px-5 py-3 text-sm font-medium text-zinc-900 shadow-soft backdrop-blur transition hover:-translate-y-0.5 hover:border-blush-300 hover:bg-white active:scale-[0.98]"
+                    className="inline-flex items-center justify-center rounded-full border border-blush-200 bg-white/70 px-5 py-3 text-sm font-medium text-zinc-900 shadow-soft backdrop-blur transition hover:-translate-y-0.5 hover:border-blush-300 hover:bg-white active:scale-[0.98] dark:border-zinc-800/80 dark:bg-zinc-900/55 dark:text-zinc-100 dark:hover:bg-zinc-900"
                   >
                     Напиши Дане
-                    <span className="ml-2 text-xs text-zinc-500">@griegafem</span>
+                    <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">@griegafem</span>
                   </a>
-                </div>
-
-                <div className="mt-3 flex sm:mt-4 sm:justify-end">
-                  <span className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-blush-100 bg-white/70 px-5 py-3 text-sm text-zinc-600 backdrop-blur">
-                    с любовью, Даня
-                  </span>
                 </div>
               </div>
             </div>
 
             <div className="flex w-full flex-col items-center gap-4 md:w-auto md:items-end">
               <LoveClock />
-              <div className="w-full rounded-3xl border border-blush-100 bg-white/80 p-5 shadow-soft backdrop-blur sm:max-w-sm md:w-[360px]">
-              <p className="text-sm text-zinc-700">
-                Мини-обещание:
-                <span className="block pt-2 text-zinc-600">
-                  беречь тебя, поддерживать, слушать и делать твои дни чуть-чуть
-                  светлее.
-                </span>
-              </p>
-              <div className="mt-4 h-px w-full bg-gradient-to-r from-transparent via-blush-200 to-transparent" />
-              <p className="mt-4 text-sm text-zinc-600">
-                P.S. Нажми на кнопку — полетят сердечки.
-              </p>
-              </div>
+              <TimeTogether />
             </div>
           </header>
 
           <section className="mt-12 md:mt-14">
-            <h2 className="text-lg font-semibold text-zinc-900">Немного Вики (самой красивой)</h2>
+            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+              <div>
+                <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+                  Фото и видео
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+                  Тут можно посмотреть свои хорошие воспоминания.
+                </p>
+              </div>
+              <Link
+                href="/media"
+                className="inline-flex items-center justify-center rounded-full border border-blush-200 bg-white/70 px-5 py-3 text-sm font-medium text-zinc-900 shadow-soft backdrop-blur transition hover:-translate-y-0.5 hover:border-blush-300 hover:bg-white active:scale-[0.98] dark:border-zinc-800/80 dark:bg-zinc-900/55 dark:text-zinc-100 dark:hover:bg-zinc-900"
+              >
+                Открыть медиа →
+              </Link>
+            </div>
 
             <div className="mt-6">
-              <PhotoCarousel photos={photos} />
+              <RotatingPhotoStrip photos={photos} />
             </div>
           </section>
 
           <section className="mt-12 md:mt-14">
-            <h2 className="text-lg font-semibold text-zinc-900">Видео с Викой</h2>
-
-            <div className="mt-4 overflow-hidden rounded-3xl border border-blush-100 bg-white shadow-soft">
-              <LazyVideo src="/vika/vika-video.mp4" />
-            </div>
-          </section>
-
-          <section className="mt-12 md:mt-14">
-            <h2 className="text-lg font-semibold text-zinc-900">Ещё кое-что</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-600">
+            <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">Ещё кое-что</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
               Небольшой сюрприз внутри. Открой, когда захочешь.
             </p>
 
@@ -111,19 +104,27 @@ export default function Page() {
               <SecretSurprise />
               <ReasonsJar />
             </div>
+
+            <div className="mt-6">
+              <WeeklyRoulette />
+            </div>
           </section>
 
           <footer className="mt-14 md:mt-16">
-            <div className="rounded-3xl border border-blush-100 bg-white/70 p-6 text-sm text-zinc-600 shadow-soft backdrop-blur">
-              <p className="text-zinc-700">
+            <div className="rounded-3xl border border-blush-100 bg-white/70 p-6 text-sm text-zinc-600 shadow-soft backdrop-blur dark:border-zinc-800/70 dark:bg-zinc-900/55 dark:text-zinc-300">
+              <p className="text-zinc-700 dark:text-zinc-100">
                 Вика, если ты читаешь это — знай: ты невероятная. Я люблю тебя всем
                 сердцем.
               </p>
               <p className="mt-3">
-                <span className="text-zinc-500">Даня</span>
+                <span className="text-zinc-500 dark:text-zinc-400">Даня</span>
                 <span className="mx-2 text-blush-400">•</span>
-                <span className="text-zinc-500">одностраничное признание</span>
+                <span className="text-zinc-500 dark:text-zinc-400">одностраничное признание</span>
               </p>
+            </div>
+
+            <div className="mt-4 flex justify-center">
+              <ThemeToggle />
             </div>
           </footer>
         </div>

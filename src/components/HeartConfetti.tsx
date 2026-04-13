@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 type Heart = {
@@ -46,16 +46,27 @@ export function HeartConfettiButton({
   const [hearts, setHearts] = useState<Heart[]>([]);
   const [sparks, setSparks] = useState<Spark[]>([]);
   const [cooldown, setCooldown] = useState(false);
+  const [eggOpen, setEggOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const lastBurstAtRef = useRef<number>(0);
+  const timeoutsRef = useRef<number[]>([]);
+  const burstsRef = useRef(0);
 
   const seed = useMemo(() => Math.random().toString(16).slice(2), []);
+
+  useEffect(() => {
+    return () => {
+      timeoutsRef.current.forEach((id) => window.clearTimeout(id));
+      timeoutsRef.current = [];
+    };
+  }, []);
 
   const burst = () => {
     const nowTs = Date.now();
     if (cooldown || nowTs - lastBurstAtRef.current < 650) return;
     lastBurstAtRef.current = nowTs;
     setCooldown(true);
+    burstsRef.current += 1;
     const rect = buttonRef.current?.getBoundingClientRect();
     const originX = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
     const originY = rect ? rect.top + rect.height / 2 : window.innerHeight * 0.55;
@@ -88,9 +99,17 @@ export function HeartConfettiButton({
     setHearts(next);
     setSparks(nextSparks);
     onBurst?.();
-    window.setTimeout(() => setHearts([]), 3200);
-    window.setTimeout(() => setSparks([]), 1800);
-    window.setTimeout(() => setCooldown(false), 650);
+    timeoutsRef.current.push(window.setTimeout(() => setHearts([]), 3200));
+    timeoutsRef.current.push(window.setTimeout(() => setSparks([]), 1800));
+    timeoutsRef.current.push(window.setTimeout(() => setCooldown(false), 650));
+
+    if (burstsRef.current === 7) {
+      timeoutsRef.current.push(
+        window.setTimeout(() => {
+          setEggOpen(true);
+        }, 450)
+      );
+    }
   };
 
   return (
@@ -181,8 +200,10 @@ export function HeartConfettiButton({
         ref={buttonRef}
         type="button"
         disabled={cooldown}
+        onPointerUp={burst}
         onClick={burst}
-        className="group relative inline-flex items-center justify-center rounded-full border border-blush-200 bg-white/80 px-5 py-3 text-sm font-medium text-zinc-900 shadow-soft backdrop-blur transition hover:-translate-y-0.5 hover:border-blush-300 hover:bg-white active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+        className="group relative inline-flex items-center justify-center rounded-full border border-blush-200 bg-white/80 px-5 py-3 text-sm font-medium text-zinc-900 shadow-soft backdrop-blur transition hover:-translate-y-0.5 hover:border-blush-300 hover:bg-white active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 dark:border-zinc-800/80 dark:bg-zinc-900/55 dark:text-zinc-100 dark:hover:bg-zinc-900"
+        style={{ touchAction: "manipulation" }}
       >
         <span className="mr-2 text-base leading-none text-blush-500">❤</span>
         <span>{label}</span>
@@ -190,6 +211,50 @@ export function HeartConfettiButton({
           {burstLabel}
         </span>
       </button>
+
+      <AnimatePresence>
+        {eggOpen ? (
+          <motion.div
+            className="fixed inset-0 z-[70] grid place-items-center px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <button
+              type="button"
+              className="absolute inset-0 bg-white/55 backdrop-blur dark:bg-black/55"
+              aria-label="Закрыть"
+              onClick={() => setEggOpen(false)}
+            />
+            <motion.div
+              className="relative w-full max-w-md overflow-hidden rounded-3xl border border-blush-100 bg-white p-6 shadow-soft dark:border-zinc-800/70 dark:bg-zinc-950"
+              initial={{ y: 14, scale: 0.98, opacity: 0 }}
+              animate={{ y: 0, scale: 1, opacity: 1 }}
+              exit={{ y: 10, scale: 0.99, opacity: 0 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+            >
+              <p className="text-xs font-medium tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+                ПАСХАЛКА
+              </p>
+              <p className="mt-2 text-pretty text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+                Вика, ты мой счастливый баг.
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+                Если ты это нашла — значит ты точно умеешь делать мир красивее. Даня ❤️
+              </p>
+              <div className="mt-5 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setEggOpen(false)}
+                  className="rounded-full border border-blush-100 bg-white/70 px-4 py-2 text-xs font-medium text-zinc-700 backdrop-blur transition hover:bg-white dark:border-zinc-800/70 dark:bg-zinc-950/60 dark:text-zinc-200 dark:hover:bg-zinc-950"
+                >
+                  Закрыть
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }

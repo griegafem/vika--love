@@ -17,6 +17,7 @@ export function PhotoCarousel({
   const thumbsRef = useRef<HTMLDivElement | null>(null);
   const [paused, setPaused] = useState(false);
   const resumeTimerRef = useRef<number | null>(null);
+  // placeholder to keep future drag-scroll enhancements localized
 
   const prev = () =>
     setActive((i) => (safePhotos.length ? (i - 1 + safePhotos.length) % safePhotos.length : 0));
@@ -52,7 +53,7 @@ export function PhotoCarousel({
       onPointerEnter={() => setPaused(true)}
       onPointerLeave={() => setPaused(false)}
     >
-      <div className="relative overflow-hidden rounded-3xl border border-blush-100 bg-white shadow-soft">
+      <div className="relative overflow-hidden rounded-3xl border border-blush-100 bg-white shadow-soft dark:border-transparent dark:bg-transparent">
         <div className="relative aspect-[4/5] sm:aspect-[16/10] md:aspect-[16/9]">
           <AnimatePresence mode="wait">
             {current ? (
@@ -95,7 +96,7 @@ export function PhotoCarousel({
           <button
             type="button"
             onClick={prev}
-            className="rounded-full border border-blush-100 bg-white/80 px-3 py-2 text-xs font-medium text-zinc-700 backdrop-blur transition hover:bg-white"
+            className="rounded-full border border-blush-100 bg-white/80 px-3 py-2 text-xs font-medium text-zinc-700 backdrop-blur transition hover:bg-white dark:border-transparent dark:bg-zinc-950/45 dark:text-zinc-200 dark:hover:bg-zinc-950/60"
             aria-label="Предыдущее фото"
           >
             ←
@@ -119,7 +120,7 @@ export function PhotoCarousel({
           <button
             type="button"
             onClick={next}
-            className="rounded-full border border-blush-100 bg-white/80 px-3 py-2 text-xs font-medium text-zinc-700 backdrop-blur transition hover:bg-white"
+            className="rounded-full border border-blush-100 bg-white/80 px-3 py-2 text-xs font-medium text-zinc-700 backdrop-blur transition hover:bg-white dark:border-transparent dark:bg-zinc-950/45 dark:text-zinc-200 dark:hover:bg-zinc-950/60"
             aria-label="Следующее фото"
           >
             →
@@ -131,9 +132,15 @@ export function PhotoCarousel({
         <div className="mt-4">
           <div
             ref={thumbsRef}
-            className="flex justify-center overflow-x-auto rounded-2xl border border-blush-100 bg-transparent p-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:overflow-x-visible"
+            className="relative mx-auto flex max-w-[min(520px,100%)] justify-start overflow-x-auto rounded-2xl border border-blush-100 bg-white/40 p-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden dark:border-transparent dark:bg-zinc-950/15"
+            onWheel={(e) => {
+              const el = thumbsRef.current;
+              if (!el) return;
+              if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+              el.scrollLeft += e.deltaY;
+            }}
           >
-            <div className="flex w-fit gap-2">
+            <div className="flex w-max gap-2 pr-6">
               {safePhotos.map((p, i) => (
                 <button
                   key={p.src}
@@ -151,7 +158,7 @@ export function PhotoCarousel({
                   )}
                   aria-label={`Открыть фото ${i + 1}`}
                 >
-                  <div className="relative h-[66px] w-[54px] sm:h-[74px] sm:w-[62px]">
+                  <div className="relative h-[58px] w-[46px] sm:h-[64px] sm:w-[52px]">
                     <Image
                       src={p.src}
                       alt={p.alt}
@@ -166,6 +173,9 @@ export function PhotoCarousel({
                 </button>
               ))}
             </div>
+
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-white/70 to-transparent dark:from-zinc-950/40" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white/70 to-transparent dark:from-zinc-950/40" />
           </div>
         </div>
       ) : (

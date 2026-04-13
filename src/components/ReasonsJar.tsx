@@ -48,7 +48,7 @@ export function ReasonsJar() {
       <motion.button
         type="button"
         onClick={pick}
-        className="inline-flex items-center justify-center rounded-2xl border border-blush-200 bg-gradient-to-br from-white to-blush-50/80 px-5 py-4 text-sm font-medium text-zinc-900 shadow-soft backdrop-blur transition hover:-translate-y-0.5 hover:border-blush-300 hover:shadow-md active:translate-y-0"
+        className="inline-flex items-center justify-center rounded-2xl border border-blush-200 bg-gradient-to-br from-white to-blush-50/80 px-5 py-4 text-sm font-medium text-zinc-900 shadow-soft backdrop-blur transition hover:-translate-y-0.5 hover:border-blush-300 hover:shadow-md active:translate-y-0 dark:border-zinc-800/80 dark:from-zinc-950 dark:to-zinc-900/60 dark:text-zinc-100"
         whileHover={{ y: -2 }}
         whileTap={{ scale: 0.98 }}
         transition={{ type: "spring", stiffness: 500, damping: 34 }}
@@ -70,7 +70,7 @@ export function ReasonsJar() {
             <button
               type="button"
               aria-label="Закрыть"
-              className="absolute inset-0 cursor-default bg-white/55 backdrop-blur"
+              className="absolute inset-0 cursor-default bg-white/55 backdrop-blur dark:bg-black/55"
               onClick={() => {
                 setOpen(false);
                 setReason(null);
@@ -78,7 +78,7 @@ export function ReasonsJar() {
             />
 
             <motion.div
-              className="relative w-full max-w-md overflow-hidden rounded-3xl border border-blush-100 bg-white shadow-soft"
+              className="relative w-full max-w-md overflow-hidden rounded-3xl border border-blush-100 bg-white shadow-soft dark:border-zinc-800/70 dark:bg-zinc-950"
               initial={{ y: 16, scale: 0.98, opacity: 0, rotate: -1 }}
               animate={{ y: 0, scale: 1, opacity: 1, rotate: 0 }}
               exit={{ y: 10, scale: 0.99, opacity: 0 }}
@@ -86,7 +86,7 @@ export function ReasonsJar() {
             >
               <div className="relative p-6 sm:p-7">
                 <div className="flex items-start justify-between gap-3">
-                  <p className="text-xs font-medium tracking-[0.2em] text-zinc-500">
+                  <p className="text-xs font-medium tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
                     ЗАПИСКА ИЗ БАНОЧКИ
                   </p>
                   <button
@@ -95,14 +95,14 @@ export function ReasonsJar() {
                       setOpen(false);
                       setReason(null);
                     }}
-                    className="shrink-0 rounded-full border border-blush-100 bg-white/70 px-3 py-1.5 text-xs font-medium text-zinc-700 backdrop-blur transition hover:bg-white"
+                    className="shrink-0 rounded-full border border-blush-100 bg-white/70 px-3 py-1.5 text-xs font-medium text-zinc-700 backdrop-blur transition hover:bg-white dark:border-zinc-800/70 dark:bg-zinc-950/60 dark:text-zinc-200 dark:hover:bg-zinc-950"
                   >
                     Закрыть
                   </button>
                 </div>
 
-                <div className="mt-4 rounded-2xl border border-dashed border-blush-200 bg-blush-50/40 p-5">
-                  <p className="text-lg italic leading-relaxed text-zinc-800 sm:text-xl">
+                <div className="mt-4 rounded-2xl border border-dashed border-blush-200 bg-blush-50/40 p-5 dark:border-zinc-800/70 dark:bg-zinc-900/35">
+                  <p className="text-lg italic leading-relaxed text-zinc-800 sm:text-xl dark:text-zinc-100">
                     Я люблю тебя…{" "}
                     <span className="text-blush-600">{reason}</span>
                   </p>
@@ -112,11 +112,11 @@ export function ReasonsJar() {
                   <button
                     type="button"
                     onClick={pick}
-                    className="rounded-xl border border-blush-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-800 shadow-soft transition hover:border-blush-300 hover:bg-blush-50/50"
+                    className="rounded-xl border border-blush-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-800 shadow-soft transition hover:border-blush-300 hover:bg-blush-50/50 dark:border-zinc-800/70 dark:bg-zinc-950/60 dark:text-zinc-100 dark:hover:bg-zinc-950"
                   >
                     Вытащить ещё одну
                   </button>
-                  <p className="text-center text-xs text-zinc-500 sm:text-right">
+                  <p className="text-center text-xs text-zinc-500 sm:text-right dark:text-zinc-400">
                     нажми на фон, чтобы закрыть
                   </p>
                 </div>
